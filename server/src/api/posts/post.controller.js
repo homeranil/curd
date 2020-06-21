@@ -1,5 +1,13 @@
 const Post = require('./post.model');
 
+const all = async (req, res, next) => {
+    let filter = {};
+    Object.assign(filter, req.lang);
+    //Object.assign(filter, { title: 'First Projsect Edit 222'});
+    res.posts = await Post.find(filter).populate('user', '_id username');
+    next();
+};
+
 const list = async (req, res, next) => {
     try {
         const result = await Post.find(req.filter).populate('user', '_id username');
@@ -105,6 +113,7 @@ const edit = async (req, res, next) => {
 };
 
 module.exports = {
+    all,
     list,
     get,
     create,

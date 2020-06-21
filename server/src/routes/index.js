@@ -4,6 +4,7 @@ const router = express.Router();
 const auth = require('../auth/auth.routes');
 const projects = require('../api/projects/project.routes');
 const posts = require('../api/posts/post.routes');
+const home = require('../api/home');
 
 
 router.get('/', (req, res) => {
@@ -25,6 +26,11 @@ router.use(
 router.use(
     '/posts',
     posts
+);
+
+router.use(
+    '/home',
+    home
 );
 
 module.exports = router;

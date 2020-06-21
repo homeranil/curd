@@ -1,5 +1,13 @@
 const Project = require('./project.model');
 
+const all = async (req, res, next) => {
+    let filter = {};
+    Object.assign(filter, req.lang);
+    //Object.assign(filter, { title: 'First Projsect Edit 222'});
+    res.projects = await Project.find(filter).populate('user', '_id username');
+    next();
+};
+
 const list = async (req, res, next) => {
     try {
         let filter = {};
@@ -108,6 +116,7 @@ const edit = async (req, res, next) => {
 };
 
 module.exports = {
+    all,
     list,
     get,
     create,
