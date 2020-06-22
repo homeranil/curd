@@ -1,8 +1,9 @@
 const express = require('express');
-const morgan = require('morgan');
+const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
-const mongoose = require('mongoose');
+const morgan = require('morgan');
+const path = require('path');
 
 require('dotenv').config();
 
@@ -10,6 +11,7 @@ const app = express();
 
 const middleware = require('./auth/auth.middlewares');
 const lang = require('./middleware/lang');
+const requestImage = require('./middleware/requestImage');
 const routes = require('./routes');
 
 
@@ -24,15 +26,15 @@ mongoose.connect(process.env.DB_URL, {
     console.log({ database_error: err });
 });
 
-
-app.use(morgan('dev'));
 app.use(cors());
-app.use(express.json());
 app.use(helmet());
+app.use(morgan('dev'));
+app.use(express.json());
+
 app.use(middleware.checkTokenSetUser);
 app.use(lang.defaultLang);
 
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', requestImage(), express.static(path.join(__dirname, './uploads/')));
 
 app.use(routes);
 

@@ -1,7 +1,6 @@
 const multer = require('multer');
 const path = require('path');
 
-
 const { v5:uuid } = require('uuid');
 
 const uploadDir = process.env.UPLOAD_DIR || '../uploads/';
@@ -12,11 +11,14 @@ const storage = multer.diskStorage({
         cb(null, path.join(__dirname, uploadDir));
     },
     filename: (req, file, cb) => {
+        // make uuid filename
         let name = new Date().getTime() + file.originalname;
         const MY_NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
+        // get ext of original file
         let ext = file.originalname.split('.');
         ext = ext[ext.length-1];
         name = uuid(name, MY_NAMESPACE) + '.' + ext;
+        // upload
         cb(null, name);
     }
 });
