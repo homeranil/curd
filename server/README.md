@@ -1,21 +1,21 @@
-[x] Create Auth
+ - [*] Create Auth
 
-  [x] Create signup
-    [x] create route
-    [x] validate
-    [x] validate existing user
+   - [*] Create signup
+     - [*] create route
+     - [*] validate
+     - [*] validate existing user
 
-  [x] Create Login
+   - [*] Create Login
 
-  [x] Create Middlewares
-    [x] Admin
-    [x] Loggin user
+   - [*] Create Middlewares
+     - [*] Admin
+     - [*] Loggin user
 
-  [x] Create Project Endpoint
-    [x] All Users
-      [x] View All Projects
-      [x] View One Project
-    [x] Only Admin
-      [x] Add Project
-      [x] Edit Project
-      [x] Remove Projects
+   - [*] Create Project Endpoint
+     - [*] All Users
+       - [*] View All Projects
+       - [*] View One Project
+     - [*] Only Admin
+       - [*] Add Project
+       - [*] Edit Project
+       - [*] Remove Projects
