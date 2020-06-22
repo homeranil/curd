@@ -9,7 +9,8 @@ function checkTokenSetUser(req, res, next) {
             // use jwt lib to decode
             jwt.verify(token, process.env.TOKEN_SECRET, (error, user) => {
                 if (error) {
-                    console.log(error);
+                    // TODO something ??? maybe send error?! ban form 1 min?!
+                    console.log('not valid token');
                 }
                 req.user = user;
                 next();

@@ -5,7 +5,7 @@ const auth = require('../auth/auth.routes');
 const projects = require('../api/projects/project.routes');
 const posts = require('../api/posts/post.routes');
 const home = require('../api/home');
-
+const gallery = require('../api/gallery/gallery.routes');
 
 router.get('/', (req, res) => {
     res.json({
@@ -31,6 +31,11 @@ router.use(
 router.use(
     '/home',
     home
+);
+
+router.use(
+    '/gallery',
+    gallery
 );
 
 module.exports = router;

@@ -26,16 +26,15 @@ mongoose.connect(process.env.DB_URL, {
 
 
 app.use(morgan('dev'));
-app.use(cors({
-    origin: 'http://localhost:3000'
-}));
+app.use(cors());
 app.use(express.json());
 app.use(helmet());
 app.use(middleware.checkTokenSetUser);
 app.use(lang.defaultLang);
 
-app.use(routes);
+app.use('/uploads', express.static('uploads'));
 
+app.use(routes);
 
 function notFound(req, res, next) {
     res.status(404);
