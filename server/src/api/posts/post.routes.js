@@ -4,7 +4,7 @@ const router = express.Router();
 
 const middleware = require('../../auth/auth.middlewares');
 
-router.get('/', controller.list);
+router.get('/', controller.list());
 router.post('/',
     middleware.isLoggedIn,
     middleware.isAdmin,

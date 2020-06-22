@@ -1,17 +1,15 @@
 const Post = require('./post.model');
 
-const all = async (req, res, next) => {
-    let filter = {};
-    Object.assign(filter, req.lang);
-    //Object.assign(filter, { title: 'First Projsect Edit 222'});
-    res.posts = await Post.find(filter).populate('user', '_id username');
-    next();
-};
-
-const list = async (req, res, next) => {
+const list = (RESPONSE = true, LIMIT = 500, ORDER = -1, ORDER_BY = 'updatedAt') => async (req, res, next) => {
     try {
-        const result = await Post.find(req.filter).populate('user', '_id username');
-        res.json(result);
+        const result = await Post.find(req.filter).populate('user', '_id username').limit(LIMIT).sort([[ORDER_BY, ORDER]]);
+        if(RESPONSE){
+            res.json(result);
+        }
+        else{
+            res.posts = result;
+            next();
+        }
     }
     catch (error) {
         next(error);
@@ -113,7 +111,6 @@ const edit = async (req, res, next) => {
 };
 
 module.exports = {
-    all,
     list,
     get,
     create,
