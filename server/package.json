@@ -1,9 +1,10 @@
 {
-  "name": "new-server",
-  "version": "1.0.0",
+  "name": "ran-tayar-new-server",
+  "version": "0.0.2",
   "description": "",
   "main": "src/index.js",
   "scripts": {
+    "routes": "node src/commands/apiRoutesList.js",
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "seed:admin": "node src/tasks/createAdminUser.js",
@@ -30,6 +31,7 @@
     "eslint": "^7.3.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.21.2",
+    "express-list-endpoints": "^4.0.1",
     "nodemon": "^2.0.4"
   }
 }

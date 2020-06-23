@@ -1,4 +1,5 @@
-function defaultLang(req, res, next) {
+// set lang
+module.exports = (req, res, next) => {
     let langs = process.env.LANGS || 'en';
     langs = langs.split(',');
     let { lang } = req.query;
@@ -6,8 +7,4 @@ function defaultLang(req, res, next) {
         lang = process.env.DEFAULT_LANG || 'en';
     req.lang = { lang };
     next();
-}
-
-module.exports = {
-    defaultLang
 };

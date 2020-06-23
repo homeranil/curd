@@ -1,11 +1,7 @@
 const express = require('express');
 const router = express.Router();
-
-const auth = require('../auth/auth.routes');
-const projects = require('../api/projects/project.routes');
-const posts = require('../api/posts/post.routes');
-const home = require('../api/home');
-const gallery = require('../api/gallery/gallery.routes');
+const path = require('path');
+const fs = require('fs');
 
 router.get('/', (req, res) => {
     res.json({
@@ -13,29 +9,18 @@ router.get('/', (req, res) => {
     });
 });
 
-router.use(
-    '/auth',
-    auth
-);
+router.use('/auth', require('../auth/auth.routes'));
 
-router.use(
-    '/projects',
-    projects
-);
+const apiDir = path.join(__dirname, '../api/');
+fs.readdirSync(apiDir).forEach(dir => {
+    fs.readdirSync(path.join(apiDir, dir)).forEach(file => {
+        if(file.includes('.routes')){
+            router.use('/' + dir, require(path.join(apiDir, dir, file)));
+        }
+    });
+});
 
-router.use(
-    '/posts',
-    posts
-);
 
-router.use(
-    '/home',
-    home
-);
-
-router.use(
-    '/gallery',
-    gallery
-);
+router.use('/uploads', require('../middleware/requestImage'), express.static(path.join(__dirname, '../uploads/')));
 
 module.exports = router;

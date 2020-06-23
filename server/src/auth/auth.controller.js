@@ -34,12 +34,19 @@ const get = (req, res) => {
     });
 };
 
+const me = (req, res) => {
+    res.json({
+        user: req.user
+    });
+};
+
 const signup = async (req, res, next) => {
     try {
         const hashed = await bcrypt.hash(req.body.password, 12);
 
         const newUser = new User({
             username: req.body.username,
+            email: req.body.email,
             password: hashed,
             role: 'user',
             active: true
@@ -82,6 +89,7 @@ const login = async (req, res, next) => {
 
 module.exports = {
     get,
+    me,
     signup,
     login
 };
