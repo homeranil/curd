@@ -24,6 +24,8 @@ app.use((req, res, next) => {
     const error = new Error(`Not Found - ${  req.originalUrl}`);
     next(error);
 });
+
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
     res.status(res.statusCode || 500);
     res.json({
