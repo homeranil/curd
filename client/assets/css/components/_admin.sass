@@ -1,0 +1,56 @@
+.admin-card
+    @apply bg-white shadow-lg rounded px-4 py-6
+    @media (min-width: 768px)
+        @apply px-8
+    h2
+        @apply text-4xl text-gray-900 font-bold mb-8
+        @media (min-width: 768px)
+            @apply text-4xl
+
+.admin-link
+    @apply text-blue-600 transition-sm
+    &:hover
+        @apply text-blue-800
+
+.admin-grid
+    display: grid
+    grid-column-gap: 2rem
+    overflow: auto
+    h4
+        @apply font-bold text-base uppercase text-gray-600 pb-3
+        &:first-of-type
+            max-width: 150px
+    h4, p, span
+        white-space: nowrap
+    p, span
+        @apply text-xl font-light py-1 text-gray-900
+        &:first-of-type
+            max-width: 150px
+.admin-grid-3
+    grid-template-columns: max-content max-content 1fr
+.admin-grid-4
+    grid-template-columns: max-content max-content max-content 1fr
+
+.admin-table
+    @apply w-full min-w-lg
+    thead tr
+        @apply uppercase text-gray-600 border-b-2 border-gray-100
+        th
+            @apply pb-1
+    tbody tr
+        @apply text-xl text-gray-900 font-light border-b-2 border-gray-100
+        &:hover
+            @apply bg-gray-100
+        td
+            @apply py-3
+
+.admin-form-input
+    @apply flex flex-col mb-8
+    > label
+        @apply text-base uppercase text-gray-600 mb-2 font-bold
+    > input, textarea
+        @apply w-full bg-gray-300 p-2 rounded text-lg text-gray-900 font-light
+    .admin-radio
+        @apply flex items-center text-xl
+        input
+            @apply mx-2

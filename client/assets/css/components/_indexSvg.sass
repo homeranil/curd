@@ -1,0 +1,15 @@
+.hero-header
+  @apply absolute top-0 hidden
+  height: 30rem
+  [dir="ltr"] &
+      @apply right-0
+  [dir="rtl"] &
+      @apply left-0
+      transform: rotateY(180deg)
+  @media(min-width: 1280px)
+    height: 45rem
+  @media(min-width: 1024px)
+    display: inline
+
+.wave-svg
+  @apply w-full
