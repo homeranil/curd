@@ -1,0 +1,33 @@
+// .heading-1, .heading-2, .heading-desc
+//     [dir="rtl"] &
+//         @apply font-header
+
+.heading-1
+    @apply text-5xl font-bold text-gray-900
+    @screen md
+        @apply text-6xl
+    @screen lg
+        @apply text-7xl
+
+.heading-desc
+    @apply text-xl text-gray-800 font-light
+    [dir="rtl"] &
+        @apply mr-1
+    [dir="ltr"] &
+        @apply ml-1
+    @screen md
+        @apply text-2xl
+    @screen lg
+        @apply text-3xl
+
+.heading-2
+    @apply text-3xl font-bold text-gray-900
+    @screen md
+        @apply text-4xl
+    @screen lg
+        @apply text-5xl
+
+.heading-3
+    @apply text-2xl font-bold text-gray-900 leading-tight
+    @screen lg
+        @apply text-3xl

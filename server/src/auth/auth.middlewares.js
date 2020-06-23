@@ -7,12 +7,16 @@ function checkTokenSetUser(req, res, next) {
         const token = authHeader.split(' ')[1];
         if (token) {
             // use jwt lib to decode
-            jwt.verify(token, process.env.TOKEN_SECRET, (error, user) => {
+            jwt.verify(token, process.env.TOKEN_SECRET, async (error, user) => {
+                let me = '';
                 if (error) {
                     // TODO something ??? maybe send error?! ban form 1 min?!
                     console.log('not valid token');
                 }
-                req.user = user;
+                else{
+                    me = await users.findById(user._id, '-password');
+                }
+                req.user = me;
                 next();
             });
         }
@@ -51,9 +55,25 @@ function unAuthorized(res, next) {
 
 const findUser = (defaultLoginError, isError, errorCode = 422) => async (req, res, next) => {
     try {
-        const user = await users.findOne({
-            username: req.body.username
-        });
+        const user = await users.findOne({'username': {'$regex': req.body.username,$options:'i'}});
+        if (isError(user)) {
+            res.status(errorCode);
+            next(new Error(defaultLoginError));
+        }
+        else {
+            req.loggingInUser = user;
+            next();
+        }
+    }
+    catch (error) {
+        res.status(500);
+        next(error);
+    }
+};
+
+const findUserEmail = (defaultLoginError, isError, errorCode = 422) => async (req, res, next) => {
+    try {
+        const user = await users.findOne({'email': {'$regex': req.body.email,$options:'i'}});
         if (isError(user)) {
             res.status(errorCode);
             next(new Error(defaultLoginError));
@@ -73,7 +93,7 @@ const validateUser = (defaultErrorMessage = '') => (req, res, next) => {
     const user = new users(req.body);
     user.validate(function(err) {
         if (err){
-            const error = defaultErrorMessage ? new Error(defaultErrorMessage) : err.error;
+            const error = defaultErrorMessage ? new Error(defaultErrorMessage) : err;
             res.status(422);
             next(error);
         }
@@ -89,5 +109,6 @@ module.exports = {
     isLoggedIn,
     isAdmin,
     findUser,
+    findUserEmail,
     validateUser
 };

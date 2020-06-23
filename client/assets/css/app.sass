@@ -1,0 +1,28 @@
+@tailwind base
+@tailwind components
+
+body
+    @apply font-primary
+
+@responsive
+    .max-w-7xl
+        max-width: 80rem
+@responsive
+    .max-w-8xl
+        max-width: 88rem
+
+.transition-sm
+    transition: all .2s ease-in-out
+
+@import './components/admin'
+@import './components/heading'
+@import './components/indexSvg'
+@import './components/buttons'
+
+.container
+  @apply w-10/12 mx-auto
+
+a
+    @apply transition duration-200 ease-in-out
+
+@tailwind utilities
