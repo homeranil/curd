@@ -8,6 +8,7 @@ module.exports = (req, res, next) => {
         next();
     }
     else{
+        console.log(referer);
         res.redirect(301, 'https://www.expression-web-tutorials.com/images/forbidden.jpg');
     }
 };

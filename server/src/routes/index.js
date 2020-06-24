@@ -11,6 +11,7 @@ router.get('/', (req, res) => {
 
 router.use('/auth', require('../auth/auth.routes'));
 
+// auto load all .routes.js from api folders
 const apiDir = path.join(__dirname, '../api/');
 fs.readdirSync(apiDir).forEach(dir => {
     fs.readdirSync(path.join(apiDir, dir)).forEach(file => {
