@@ -6,7 +6,8 @@ const schema = new Schema({
     email: {type: String, lowercase: true, unique: true, required: [true, 'can\'t be blank'], match: [/\S+@\S+\.\S+/, 'is invalid'], index: true},
     password: { type: String, required: true },
     role: { type: String, default: 'user' },
-    active: { type: Boolean, default: true }
+    active: { type: Boolean, default: true },
+    token: { type: String }
 }, {
     timestamps: true
 });
