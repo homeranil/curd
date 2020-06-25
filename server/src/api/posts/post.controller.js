@@ -2,7 +2,17 @@ const Post = require('./post.model');
 
 const list = (RESPONSE = true, LIMIT = 500, ORDER = -1, ORDER_BY = 'updatedAt') => async (req, res, next) => {
     try {
-        const result = await Post.find(req.filter).populate('user', '_id username').limit(LIMIT).sort([[ORDER_BY, ORDER]]);
+        let filter = {};
+        Object.assign(filter, req.lang);
+        const result = await Post.find(filter)
+            .populate('user', '_id username')
+            .populate({
+                path: 'tags',
+                match: { status: { $gte: true } },
+                select: '_id title'
+            })
+            .limit(LIMIT)
+            .sort([[ORDER_BY, ORDER]]);
         if(RESPONSE){
             res.json(result);
         }
@@ -16,52 +26,43 @@ const list = (RESPONSE = true, LIMIT = 500, ORDER = -1, ORDER_BY = 'updatedAt') 
     }
 };
 
-const get = async (req, res, next) => {
-    try {
-        const result = await (await Post.findOne({ _id: req.params.id }));
-        res.json(result);
-    }
-    catch (error) {
-        next(error);
-    }
+const get = async (req, res) => {
+    res.json(res.post);
 };
 
 const create = async (req, res, next) => {
-    let unique = await Post.findOne({
-        name: req.body.title
-    });
-    if(!unique) {
-        try {
-            const newPost = new Post({
-                ...req.body,
-                user: req.user._id
-            });
-            const createdEntry = await newPost.save();
-            res.status(200).json(createdEntry);
+    try {
+        const newPost = new Post({
+            ...req.body,
+            user: req.user._id
+        });
+        const createdEntry = await newPost.save();
+        res.status(200).json(createdEntry);
+    }
+    catch (error) {
+        if (error.name === 'ValidationError') {
+            res.status(422);
+            res.json(error);
         }
-        catch (error) {
-            if (error.name === 'ValidationError') {
-                res.status(422);
-                res.json(error);
-            }
-            else {
-                res.status(500);
-                next(error);
-            }
+        else {
+            res.status(500);
+            next(error);
         }
     }
-    else {
-        const error = new Error('Not unique');
-        res.status(422);
-        next(error);
-    }
+
 };
 
 const findPost = async (req, res, next) => {
     try {
-        await Post.findOne({
+        res.post = await Post.findOne({
             _id: req.params.id
-        });
+        })
+            .populate('user', '_id username')
+            .populate({
+                path: 'tags',
+                match: { status: { $gte: true } },
+                select: '_id title'
+            });
         next();
     }
     catch (err) {
@@ -93,6 +94,7 @@ const edit = async (req, res, next) => {
                 res.json(err);
             }
             else{
+                req.body.tags = req.body.tags.map((v) => v._id);
                 const filter = { _id: req.params.id };
                 const update = req.body;
                 const editEntry = await Post.findOneAndUpdate(filter, update, {

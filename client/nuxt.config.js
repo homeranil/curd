@@ -50,8 +50,8 @@ export default {
    */
   plugins: [
     // To Slug Function (Fixing Sending Hebrew Slug To Server)
-    '@/plugins/Helpers/helpers.server.js',
-    '@/plugins/Helpers/helpers.client.js',
+    // '@/plugins/Helpers/helpers.server.js',
+    // '@/plugins/Helpers/helpers.client.js',
     // Doc: https://github.com/michalsnik/aos#animations
     '@/plugins/aos.client.js',
     '@/plugins/axios.js',

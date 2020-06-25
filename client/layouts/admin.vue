@@ -5,11 +5,13 @@
     >
       <div class="hidden lg:flex flex-col items-center py-8">
         <img
-          src="https://www.gravatar.com/avatar/123456"
+          :src="'https://www.gravatar.com/avatar/' + $auth.user.emailHash"
           alt="User's profile image"
           class="rounded-full w-24 h-24 mb-2"
         />
-        <label class="text-xl text-gray-800">User Name</label>
+        <label class="text-xl text-gray-800">
+          {{ $auth.user.username }}
+        </label>
       </div>
       <div class="flex lg:flex-col justify-between items-center px-4 lg:px-12">
         <nuxt-link
@@ -18,6 +20,11 @@
         >
           {{ $t('nav.blog') }}
         </nuxt-link>
+        <a
+          class="text-lg lg:text-2xl lg:mb-4 hover:text-gray-900 hover:font-bold transition-sm text-gray-700"
+        >
+          {{ $t('nav.projects') }}
+        </a>
         <a
           class="text-lg lg:text-2xl lg:mb-4 hover:text-gray-900 hover:font-bold transition-sm text-gray-700"
         >

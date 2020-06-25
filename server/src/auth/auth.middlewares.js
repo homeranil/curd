@@ -26,7 +26,7 @@ function isGuest(req, res, next) {
 }
 
 function isAdmin(req, res, next) {
-    if (req.user.role === 'admin') {
+    if (req.user && req.user.role === 'admin') {
         next();
     }
     else {
@@ -41,16 +41,16 @@ function checkTokenSetUser(req, res, next) {
         if (token) {
             // use jwt lib to decode
             jwt.verify(token, process.env.TOKEN_SECRET, async (error, user) => {
-                let me;
+                let me = '';
                 if (error) {
                     // TODO something ??? maybe send error?! ban form 1 min?!
-                    console.log('not valid token');
+                    console.log(error);
                 }
                 else{
                     me = await User.findOne({
                         '_id': user._id,
                         'token': user.hash
-                    });
+                    }, '-password -token -createdAt -active');
                 }
                 req.user = me;
                 next();

@@ -4,6 +4,7 @@ var validator = require('validator');
 const schema = mongoose.Schema({
     title: { type: String, required: true, unique: true },
     description: { type: String, required: true },
+    content: { type: String, required: false },
     background: {
         type: String,
         required: true,
@@ -12,9 +13,14 @@ const schema = mongoose.Schema({
             message: 'Must be a Valid URL'
         }
     },
+    tags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }],
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    status: {
+        type: Boolean,
+        default: true
     },
     lang: {
         type: String,

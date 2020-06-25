@@ -6,7 +6,6 @@ const middleware = require('../../auth/auth.middlewares');
 
 router.get('/', controller.list());
 router.post('/',
-    middleware.isLoggedIn,
     middleware.isAdmin,
     controller.create
 );
@@ -14,13 +13,11 @@ router.post('/',
 router.get('/:id', controller.findPost, controller.get);
 router.delete('/:id',
     controller.findPost,
-    middleware.isLoggedIn,
     middleware.isAdmin,
     controller.remove
 );
 router.patch('/:id',
     controller.findPost,
-    middleware.isLoggedIn,
     middleware.isAdmin,
     controller.edit
 );

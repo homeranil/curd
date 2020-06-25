@@ -2,6 +2,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('./auth.model');
 
+const md5 = require('md5');
+
 // Function that create token from jwt web token
 function createToken (payload, expiresIn = process.env.TOKEN_EXPIRES || '1h'){
     return jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: expiresIn});
@@ -46,13 +48,14 @@ const login = async (req, res, next) => {
     try {
     // find user by username
         const user = await User.findOne({'username': {'$regex': req.body.username,$options:'i'}});
-        const payload = {
-            _id: user._id,
-            h: Date.now()
-        };
-        user.token = await createToken(payload);
-        await user.save();
+
         if (user) {
+            const payload = {
+                _id: user._id,
+                h: Date.now()
+            };
+            user.token = await createToken(payload);
+            await user.save();
             const result = await bcrypt.compare(
                 req.body.password,
                 user.password
@@ -107,6 +110,7 @@ const signup = async (req, res, next) => {
         const newUser = new User({
             username: req.body.username,
             email: req.body.email,
+            emailHash: md5(req.body.email),
             password: hashed,
             role: 'user',
             active: true

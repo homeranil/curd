@@ -17,7 +17,7 @@ export default {
     return {
       login: {
         username: 'rAnT1989',
-        password: '5921069',
+        password: 's1a2z31Z@s',
       },
     }
   },
