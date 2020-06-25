@@ -10,9 +10,16 @@ if(!process.env.command){
     require('./plugins/db');
 }
 
+// Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
+// see https://expressjs.com/en/guide/behind-proxies.html
+app.set('trust proxy', 1);
+
 // import and use all middleware
 const midllewares = require('./middleware');
 app.use (midllewares);
+
+const apiKeys = require('./middleware/apiKey');
+app.use (apiKeys);
 
 // import and use routes
 const routers = require('./routes');
@@ -27,6 +34,7 @@ app.use((req, res, next) => {
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
+    // console.log(err);
     res.status(res.statusCode || 500);
     res.json({
         error: true,

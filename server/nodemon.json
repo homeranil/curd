@@ -1,0 +1,12 @@
+{
+  "events": {
+    "restart": "kill-port ${PORT:-5000}",
+    "crash": "kill-port ${PORT:-5000}"
+  },
+  "watch": [
+    "*.*",
+    ".env"
+  ],
+  "ext": "js,mjs,.env,json",
+  "delay": "2000"
+}
