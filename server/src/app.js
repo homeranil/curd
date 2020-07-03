@@ -1,6 +1,20 @@
 // load express to app
 const express = require('express');
 const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const io = require('socket.io').listen(server);
+
+
+io.on('connection', (socket) => {
+    console.log('new connection to websocket');
+    socket.emit('welcome', 'welcome');
+});
+
+app.use((req, res, next) => {
+    req.io = io;
+    next();
+});
 
 // load env file
 require('dotenv').config();
@@ -41,4 +55,4 @@ app.use((err, req, res, next) => {
         message: err.message
     });
 });
-module.exports = app;
+module.exports = server;

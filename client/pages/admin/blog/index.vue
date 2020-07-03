@@ -73,5 +73,10 @@ export default {
       posts: [],
     }
   },
+  mounted() {
+    this.$socket.$subscribe('newPost', (payload) => {
+      this.posts.push(payload)
+    })
+  },
 }
 </script>

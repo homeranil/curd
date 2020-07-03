@@ -55,6 +55,7 @@ export default {
     // Doc: https://github.com/michalsnik/aos#animations
     '@/plugins/aos.client.js',
     '@/plugins/axios.js',
+    { src: '@/plugins/io.js', mode: 'client' },
   ],
   /*
    ** Nuxt.js dev-modules

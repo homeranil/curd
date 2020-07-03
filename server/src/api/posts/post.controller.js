@@ -3,7 +3,7 @@ const Post = require('./post.model');
 const list = (RESPONSE = true, LIMIT = 500, ORDER = -1, ORDER_BY = 'updatedAt') => async (req, res, next) => {
     try {
         let filter = {};
-        Object.assign(filter, req.lang);
+        // Object.assign(filter, req.lang);
         const result = await Post.find(filter)
             .populate('user', '_id username')
             .populate({
@@ -37,6 +37,7 @@ const create = async (req, res, next) => {
             user: req.user._id
         });
         const createdEntry = await newPost.save();
+        req.io.emit('newPost', createdEntry);
         res.status(200).json(createdEntry);
     }
     catch (error) {

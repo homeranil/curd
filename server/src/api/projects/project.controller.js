@@ -40,6 +40,7 @@ const create = async (req, res, next) => {
                 user: req.user._id
             });
             const createdEntry = await newProject.save();
+            req.io.emit('newProject', createdEntry);
             res.status(200).json(createdEntry);
         }
         catch (error) {
